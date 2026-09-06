@@ -1,0 +1,94 @@
+{
+  "activity_recognition": {
+    "model": "TemporalActivityGRU",
+    "test_samples": 500,
+    "accuracy": 0.896,
+    "precision_weighted": 0.9113,
+    "recall_weighted": 0.896,
+    "f1_score_weighted": 0.8863,
+    "latency_ms_per_inference": 0.122,
+    "throughput_fps": 8183.2,
+    "confusion_matrix": [
+      [
+        71,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        42,
+        26,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        71,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        7,
+        0,
+        64,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        71,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        74
+      ]
+    ],
+    "classes": [
+      "standing",
+      "walking",
+      "sitting",
+      "running",
+      "bending",
+      "lying_down",
+      "falling"
+    ]
+  },
+  "risk_prediction": {
+    "model": "RandomForestRiskRegressor",
+    "test_samples": 500,
+    "mae": 5.7278,
+    "rmse": 7.6574,
+    "r2_score": 0.9235,
+    "latency_ms_per_inference": 0.014
+  }
+}
