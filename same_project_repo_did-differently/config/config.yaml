@@ -1,0 +1,65 @@
+# ==============================================================================
+# VisionDNA Configuration
+# ==============================================================================
+
+system:
+  project_name: "VisionDNA: AI-Based Visual Digital Twin"
+  version: "1.0.0"
+  device: "cpu"  # "cpu" or "cuda"
+
+camera:
+  source: 0  # 0 for default webcam, or path to video file (e.g., "data/raw/sample.mp4")
+  width: 640
+  height: 480
+  fps_limit: 30
+  use_directshow: true  # Recommended for Windows webcam stability
+
+detection:
+  model_name: "yolov8n.pt"  # Lightweight YOLOv8 nano model for high CPU FPS
+  model_path: "models/person_detection/yolov8n.pt"
+  confidence_threshold: 0.40
+  iou_threshold: 0.45
+  target_classes: [0]  # Class 0 in COCO is "person"
+
+tracking:
+  tracker_type: "bytetrack.yaml"  # bytetrack.yaml or botsort.yaml
+  track_history_length: 30  # Number of past frames to keep per person
+  min_track_confidence: 0.35
+
+pose:
+  static_image_mode: false
+  model_complexity: 1  # 0=Lite, 1=Full, 2=Heavy (1 gives great balance on CPU)
+  smooth_landmarks: true
+  min_detection_confidence: 0.50
+  min_tracking_confidence: 0.50
+
+activity:
+  classes:
+    - "Standing"
+    - "Walking"
+    - "Sitting"
+    - "Running"
+    - "Bending"
+    - "Falling"
+  model_path: "models/activity_model/activity_classifier.joblib"
+  sequence_window_size: 10  # Frames used for temporal features
+
+prediction:
+  history_window: 15
+  min_history_required: 5
+  model_path: "models/prediction_model/transition_predictor.joblib"
+
+risk:
+  thresholds:
+    low_max: 30
+    medium_max: 60
+    high_min: 61
+  danger_zones:
+    - name: "Restricted Area A"
+      type: "polygon"
+      points: [[450, 50], [620, 50], [620, 300], [450, 300]]
+      color: [0, 0, 255]  # BGR for Red
+      risk_weight: 40.0
+  proximity_threshold_px: 80  # Distance in pixels to trigger collision warning
+  fall_risk_weight: 50.0
+  speed_anomaly_threshold: 4.5  # Normalized speed threshold for running/abnormal movement
